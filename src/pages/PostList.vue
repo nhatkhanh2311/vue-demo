@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Button from 'primevue/button';
 import Card from 'primevue/card';
+import SpeedDial from 'primevue/speeddial';
+
 import { Post } from '../types/post.interface.ts';
+
+const router = useRouter();
 
 const posts: Ref<Post[]> = ref([]);
 
@@ -34,11 +39,13 @@ const fetchPosts = () => {
         <template #title>{{ post.title }}</template>
         <template #content>{{ post.description }}</template>
         <template #footer>
-          <Button icon="pi pi-file-edit" label="Edit" />
+          <Button icon="pi pi-file-edit" label="Edit" @click="router.push(`posts/${post.id}`)" />
         </template>
       </Card>
     </div>
   </div>
+
+  <SpeedDial direction="down-right" @click="router.push('posts/create')" />
 </template>
 
 <style scoped>

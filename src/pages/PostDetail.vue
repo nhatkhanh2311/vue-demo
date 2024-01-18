@@ -25,20 +25,22 @@ const fetchPost = () => {
   axios
     .get(`https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts/${route.params.id}`)
     .then((res: any) => {
-      console.log(res.data);
       post.value = res.data;
     })
-    .catch((err: any) => {
-      console.log(err);
+    .catch(() => {
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Fetch post failed',
+        life: 3000,
+      });
     });
 }
 
 const onSubmit = (data: any) => {
-  console.log(data);
   axios
     .put(`https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts/${route.params.id}`, data)
-    .then((res: any) => {
-      console.log(res.data);
+    .then(() => {
       toast.add({
         severity: 'success',
         summary: 'Success',
@@ -46,8 +48,7 @@ const onSubmit = (data: any) => {
         life: 3000,
       });
     })
-    .catch((err: any) => {
-      console.log(err);
+    .catch(() => {
       toast.add({
         severity: 'error',
         summary: 'Error',
@@ -59,15 +60,18 @@ const onSubmit = (data: any) => {
 </script>
 
 <template>
-  <div class="col-12" v-if="post">
+  <div v-if="post">
     <Card>
       <template #content>
-        <form @submit.prevent="onSubmit">
-          <FormInputText class-name="mb-2" label="Title" name="title" v-model:value="post.title" />
-          <FormInputDate class-name="mb-2" label="Date" name="date" v-model:value="post.date" />
-          <FormInputNumber class-name="mb-2" label="Number" name="number" v-model:value="post.number" />
-          <FormInputTextArea class-name="mb-2" label="Description" name="description" v-model:value="post.description" rows="5" />
-          <Button type="submit" icon="pi pi-save" label="Save" />
+        <img class="w-20rem h-20rem border-round-2xl mb-2" alt="header" :src="post.image" />
+        <form class="grid" @submit.prevent="onSubmit">
+          <FormInputText class-name="col-6 mb-2" label="Title" name="title" v-model:value="post.title" />
+          <FormInputDate class-name="col-6 mb-2" label="Date" name="date" v-model:value="post.date" />
+          <FormInputNumber class-name="col-6 mb-2" label="Number" name="number" v-model:value="post.number" />
+          <FormInputTextArea class-name="col-6 mb-2" label="Description" name="description" v-model:value="post.description" rows="5" />
+          <div class="col-12 align-content-center">
+            <Button type="submit" icon="pi pi-save" label="Save" />
+          </div>
         </form>
       </template>
     </Card>

@@ -5,10 +5,12 @@ import axios from 'axios';
 import Button from 'primevue/button';
 import Card from 'primevue/card';
 import SpeedDial from 'primevue/speeddial';
+import { useToast } from 'primevue/usetoast';
 
 import { Post } from '../types/post.interface.ts';
 
 const router = useRouter();
+const toast = useToast();
 
 const posts: Ref<Post[]> = ref([]);
 
@@ -20,11 +22,15 @@ const fetchPosts = () => {
   axios
     .get('https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts')
     .then((res: any) => {
-      console.log(res.data);
       posts.value = res.data;
     })
-    .catch((err: any) => {
-      console.log(err);
+    .catch(() => {
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Fetch posts failed',
+        life: 3000,
+      });
     });
 }
 </script>

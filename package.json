@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@vee-validate/yup": "^4.12.4",
@@ -19,14 +21,30 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.8",
+    "@storybook/addon-interactions": "^7.6.8",
+    "@storybook/addon-links": "^7.6.8",
+    "@storybook/blocks": "^7.6.8",
+    "@storybook/test": "^7.6.8",
+    "@storybook/vue3": "^7.6.8",
+    "@storybook/vue3-vite": "^7.6.8",
     "@vitejs/plugin-vue": "^4.5.2",
     "eslint": "^8.56.0",
+    "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-vue": "^9.19.2",
     "prettier": "3.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sass": "^1.69.7",
     "sass-loader": "^13.3.3",
+    "storybook": "^7.6.8",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vue-tsc": "^1.8.25"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

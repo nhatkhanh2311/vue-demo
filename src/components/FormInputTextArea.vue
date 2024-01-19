@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import InputGroup from 'primevue/inputgroup';
-import InputGroupAddon from 'primevue/inputgroupaddon';
-import Textarea from 'primevue/textarea';
+import { defineProps, defineModel } from "vue";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
+import Textarea from "primevue/textarea";
 
-const { label, name } = defineProps<{
+defineProps<{
   label: string;
   name: string;
   rows?: string;
   className?: string;
 }>();
 
-const value = defineModel('value');
+const value = defineModel("value");
 </script>
 
 <template>
@@ -23,5 +24,4 @@ const value = defineModel('value');
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

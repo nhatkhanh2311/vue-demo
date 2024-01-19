@@ -1,15 +1,10 @@
-import { createApp } from 'vue';
-import PrimeVue from 'primevue/config';
-import './style.scss';
-import App from './App.vue';
-import 'primeicons/primeicons.css';
-import 'primevue/resources/themes/lara-light-green/theme.css';
-import 'primeflex/primeflex.css';
-import ToastService from 'primevue/toastservice';
-import router from './router.ts';
+import { createApp } from "vue";
+import PrimeVue from "primevue/config";
+import ToastService from "primevue/toastservice";
+import "primeicons/primeicons.css";
+import "primevue/resources/themes/lara-light-green/theme.css";
+import "primeflex/primeflex.css";
+import App from "./App.vue";
+import router from "./router";
 
-const app = createApp(App);
-app.use(PrimeVue);
-app.use(ToastService);
-app.use(router);
-app.mount('#app');
+createApp(App).use(router).use(PrimeVue).use(ToastService).mount("#app");

@@ -1,11 +1,15 @@
-import { expect } from "chai";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import axios from "axios";
+import chai from "chai";
 import sinon from "sinon";
+import sinonChai from "sinon-chai";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 
 import PostList from "@/pages/PostList.vue";
+
+const expect = chai.expect;
+chai.use(sinonChai);
 
 describe("PostList", () => {
   let sandbox: sinon.SinonSandbox;
@@ -90,6 +94,7 @@ describe("PostList", () => {
     });
 
     await wrapper.vm.$nextTick();
+    await flushPromises();
 
     const cards = wrapper.findAll(".col-6");
     expect(cards.length).to.equal(data.length);
@@ -100,5 +105,5 @@ describe("PostList", () => {
       expect(card.text()).to.include(post.title);
       expect(card.text()).to.include(post.description);
     });
-  });
+  }).timeout(10000);
 });

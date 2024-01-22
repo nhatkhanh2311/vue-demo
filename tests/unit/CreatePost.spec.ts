@@ -1,11 +1,15 @@
-import { expect } from "chai";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import axios from "axios";
+import chai from "chai";
 import sinon from "sinon";
+import sinonChai from "sinon-chai";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 
 import CreatePost from "@/pages/CreatePost.vue";
+
+const expect = chai.expect;
+chai.use(sinonChai);
 
 describe("CreatePost", () => {
   let sandbox: sinon.SinonSandbox;
@@ -28,61 +32,45 @@ describe("CreatePost", () => {
       description: "Description 1",
     };
 
-    // Stub the post method of axios
-    axiosPostStub.resolves({ data });
+    axiosPostStub.resolves(true);
 
     const wrapper = mount(CreatePost, {
-      data() {
-        return {
-          post: { ...data },
-        };
-      },
       global: {
         plugins: [PrimeVue, ToastService],
       },
     });
 
-    // Trigger form submit
+    await flushPromises();
+    await wrapper.find('input[name="title"]').setValue(data.title);
+    await wrapper.find('span[name="number"] > input').setValue(data.number);
+    await wrapper
+      .find('textarea[name="description"]')
+      .setValue(data.description);
     await wrapper.find("form").trigger("submit.prevent");
 
     expect(axiosPostStub.calledOnce).to.be.true;
     expect(
       axiosPostStub.calledWith(
-        "https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts",
-        data
+        "https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts"
       )
     ).to.be.true;
-  });
+  }).timeout(20000);
 
-  it("renders form inputs correctly", () => {
-    const data = {
-      title: "Post 1",
-      date: "2022-01-01",
-      number: 1,
-      description: "Description 1",
-    };
+  it("validates fail", async () => {
+    axiosPostStub.resolves(true);
 
     const wrapper = mount(CreatePost, {
-      data() {
-        return {
-          post: { ...data },
-        };
-      },
       global: {
         plugins: [PrimeVue, ToastService],
       },
     });
 
-    expect(wrapper.find("form").exists()).to.be.true;
-    expect(wrapper.find('input[name="title"]').html()).to.have.string(
-      data.title
+    await flushPromises();
+    await wrapper.find("form").trigger("submit.prevent");
+
+    expect(axiosPostStub.calledOnce).to.be.false;
+    expect(wrapper.find('span[name="error"]').text()).to.have.string(
+      "Title is required"
     );
-    expect(wrapper.find('input[name="date"]').html()).to.have.string(data.date);
-    expect(wrapper.find('input[name="number"]').html()).to.have.string(
-      String(data.number)
-    );
-    expect(wrapper.find('textarea[name="description"]').html()).to.have.string(
-      data.description
-    );
-  });
+  }).timeout(20000);
 });

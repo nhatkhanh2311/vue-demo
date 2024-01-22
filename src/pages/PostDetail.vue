@@ -21,6 +21,23 @@ onMounted(() => {
   fetchPost();
 });
 
+const validate = (): { ok: boolean; message?: string } => {
+  if (!post.value) return { ok: false, message: "Post is required" };
+  if (!post.value.title || post.value.title.trim() === "") {
+    return { ok: false, message: "Title is required" };
+  }
+  if (!post.value.date || new Date(post.value.date) > new Date()) {
+    return { ok: false, message: "Date must be in history" };
+  }
+  if (!post.value.number || post.value.number < 0) {
+    return { ok: false, message: "Number must be greater than 0" };
+  }
+  if (!post.value.description || post.value.description.trim() === "") {
+    return { ok: false, message: "Description is required" };
+  }
+  return { ok: true };
+};
+
 const fetchPost = () => {
   axios
     .get(
@@ -40,27 +57,37 @@ const fetchPost = () => {
 };
 
 const onSubmit = (data: any) => {
-  axios
-    .put(
-      `https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts/${route.params.id}`,
-      data
-    )
-    .then(() => {
-      toast.add({
-        severity: "success",
-        summary: "Success",
-        detail: "Update post successfully",
-        life: 3000,
+  const { ok, message } = validate();
+  if (ok) {
+    axios
+      .put(
+        `https://my-json-server.typicode.com/nhatkhanh2311/json_server/posts/${route.params.id}`,
+        data
+      )
+      .then(() => {
+        toast.add({
+          severity: "success",
+          summary: "Success",
+          detail: "Update post successfully",
+          life: 3000,
+        });
+      })
+      .catch(() => {
+        toast.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Update post failed",
+          life: 3000,
+        });
       });
-    })
-    .catch(() => {
-      toast.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Update post failed",
-        life: 3000,
-      });
+  } else {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: message,
+      life: 3000,
     });
+  }
 };
 </script>
 

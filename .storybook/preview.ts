@@ -1,7 +1,7 @@
-import type { Preview } from '@storybook/vue3';
-import 'primeicons/primeicons.css';
-import 'primevue/resources/themes/lara-light-green/theme.css';
-import 'primeflex/primeflex.css';
+import type { Preview } from "@storybook/vue3";
+import "primeicons/primeicons.css";
+import "primevue/resources/themes/lara-light-green/theme.css";
+import "primeflex/primeflex.css";
 
 const preview: Preview = {
   parameters: {

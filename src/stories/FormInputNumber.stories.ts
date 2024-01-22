@@ -1,9 +1,9 @@
-import { StoryObj } from '@storybook/vue3';
+import { StoryObj } from "@storybook/vue3";
 
-import FormInputNumber from '../components/FormInputNumber.vue';
+import FormInputNumber from "../components/FormInputNumber.vue";
 
 const meta = {
-  title: 'Components/FormInputNumber',
+  title: "Components/FormInputNumber",
   component: FormInputNumber,
 };
 export default meta;
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Normal: Story = {
   args: {
-    label: 'Input',
-    name: 'input',
+    label: "Input",
+    name: "input",
   },
 };
